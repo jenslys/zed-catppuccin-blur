@@ -4,4 +4,4 @@ schema_version = 1
 version = "0.0.1"
 authors = ["jenslys <jens@lystad.io>"]
 description = "Catppuccin themes with blur"
-repository = "https://github.com/jenslys/catppuccin-blur"
+repository = "https://github.com/jenslys/zed-catppuccin-blur"
