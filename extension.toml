@@ -1,7 +1,7 @@
 id = "catppuccin-blur"
 name = "Catppuccin Blur"
 schema_version = 1
-version = "0.0.4"
+version = "0.0.5"
 authors = ["Jens Lystad <jens@lystad.io>"]
 description = "Catppuccin themes with blur"
 repository = "https://github.com/jenslys/zed-catppuccin-blur"
