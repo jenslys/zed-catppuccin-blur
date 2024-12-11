@@ -1,0 +1,16 @@
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  homebrew:
+    name: Release Zed Extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: huacnlee/zed-extension-action@v1
+        with:
+          extension-name: catppuccin-blur
+          push-to: jenslys/extensions
+        env:
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
