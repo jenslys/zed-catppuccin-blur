@@ -404,8 +404,8 @@
         "background.appearance": "blurred",
         "background": "#1e1e2ed7",
         "elevated_surface.background": "#181825",
-        "surface.background": "#1e1e2ed0",
-        "border": "#31324400",
+        "surface.background": "#00000000",
+        "border": "#90909000",
         "hint.background": "#181825c0",
         "editor.background": "#00000000",
         "editor.line_number": "#ffffff20",
@@ -798,8 +798,8 @@
         "background.appearance": "blurred",
         "background": "#050505d7",
         "elevated_surface.background": "#080808",
-        "surface.background": "#050505d0",
-        "border": "#31324400",
+        "surface.background": "#00000000",
+        "border": "#90909000",
         "hint.background": "#080808c0",
         "editor.background": "#00000000",
         "editor.line_number": "#ffffff20",
@@ -1173,12 +1173,12 @@
             "font_weight": null
           },
           "variable.special": {
-            "color": "#f4b8e4",
+            "color": "#dcb8d5",
             "font_style": "italic",
             "font_weight": null
           },
           "variant": {
-            "color": "#e78284",
+            "color": "#f38ba8",
             "font_style": null,
             "font_weight": null
           }
@@ -1192,8 +1192,8 @@
         "background.appearance": "blurred",
         "background": "#303446d7",
         "elevated_surface.background": "#292c3c",
-        "surface.background": "#303446d0",
-        "border": "#41455900",
+        "surface.background": "#00000000",
+        "border": "#90909000",
         "hint.background": "#292c3cc0",
         "editor.background": "#00000000",
         "editor.line_number": "#ffffff20",
@@ -1586,8 +1586,8 @@
         "background.appearance": "blurred",
         "background": "#050505d7",
         "elevated_surface.background": "#080808",
-        "surface.background": "#050505d0",
-        "border": "#26233a00",
+        "surface.background": "#00000000",
+        "border": "#90909000",
         "hint.background": "#080808c0",
         "editor.background": "#00000000",
         "editor.line_number": "#ffffff20",
