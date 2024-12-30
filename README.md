@@ -1,32 +1,60 @@
-# Catppuccin for Zed (with Blur)
+# 🌿 Catppuccin Blur for Zed
 
-A fork of the [Catppuccin theme for Zed](https://github.com/catppuccin/zed) with added blur effect.
+> **Note**
+> The blur effect may not work on all operating systems. This is a limitation of Zed's window transparency implementation, not a theme issue. If you experience issues with blur, please report them to the [Zed repository](https://github.com/zed-industries/zed).
 
-## Previews
+<p align="center">
+  <a href="https://github.com/jenslys/zed-catppuccin-blur/stargazers">
+    <img src="https://img.shields.io/github/stars/jenslys/zed-catppuccin-blur?colorA=363a4f&colorB=b7bdf8&style=for-the-badge">
+  </a>
+  <a href="https://github.com/jenslys/zed-catppuccin-blur/issues">
+    <img src="https://img.shields.io/github/issues/jenslys/zed-catppuccin-blur?colorA=363a4f&colorB=f5a97f&style=for-the-badge">
+  </a>
+  <a href="https://github.com/jenslys/zed-catppuccin-blur/contributors">
+    <img src="https://img.shields.io/github/contributors/jenslys/zed-catppuccin-blur?colorA=363a4f&colorB=a6da95&style=for-the-badge">
+  </a>
+</p>
 
-![Latte Preview](https://raw.githubusercontent.com/jenslys/zed-catppuccin-blurred/master/assets/preview.webp)
-![Mocha Preview](https://raw.githubusercontent.com/jenslys/zed-catppuccin-blur/master/assets/preview-dark.webp)
+<p align="center">
+  A modern, blurred variant of the <a href="https://github.com/catppuccin/zed">Catppuccin theme</a> for <a href="https://zed.dev">Zed</a>
+</p>
 
-## Features
+## ✨ Features
 
-- Soothing pastel theme based on Catppuccin
-- Added blur effect for a modern, frosted-glass look
+- 🔄 Automatic sync with the official Catppuccin theme
+- 🌫️ Beautiful blur effects for all variants
+- 🎨 Five stunning variants:
+  - ☀️ Latte (Light)
+  - 🧊 Frappé (Cold Dark)
+  - ☕ Macchiato (Dark)
+  - 🌿 Mocha (Dark)
+  - 🖤 Espresso (Ultra Dark) [Custom variant]
+- 🪟 Transparent backgrounds with frosted glass effect
+- 🎯 Clean, modern UI with reduced visual noise
 
-## Installation
+## 📸 Previews
 
-1. Open Zed.
-2. Press `cmd+shift+p` and select _zed: extensions_.
-3. Search for "Catppuccin Blur" and install.
-4. Select the Catppuccin Latte Blur theme in the dropdown shown after hitting `cmd+k`, `cmd+t`.
+<details>
+<summary>🌅 Latte</summary>
+<img src="assets/latte.png">
+</details>
+<details>
+<summary>❄️ Frappé</summary>
+<img src="assets/frappe.png">
+</details>
+<details>
+<summary>☕ Macchiato</summary>
+<img src="assets/macchiato.png">
+</details>
+<details>
+<summary>🌿 Mocha</summary>
+<img src="assets/mocha.png">
+</details>
+<details>
+<summary>🖤 Espresso</summary>
+<img src="assets/espresso.png">
+</details>
 
-## Usage
+## 📦 Installation
 
-After installation, you can activate the theme by:
-
-1. Opening the command palette with `cmd+shift+p`.
-2. Typing "theme" and selecting "Zed: Switch Theme".
-3. Choosing "Catppuccin Latte Blur" from the list.
-
-## Credits
-
-- Original [Catppuccin for Zed](https://github.com/catppuccin/zed) by the Catppuccin Organization
+1. Clone this repository to your Zed themes directory:

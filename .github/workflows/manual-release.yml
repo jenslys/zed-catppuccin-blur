@@ -1,0 +1,66 @@
+name: Manual Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: "Version bump type"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests semver
+
+      - name: Get current version
+        id: version
+        run: |
+          CURRENT_VERSION=$(grep '^version = ' extension.toml | sed 's/version = "\(.*\)"/\1/')
+          if [ "${{ github.event.inputs.version_bump }}" = "patch" ]; then
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_patch()))")
+          elif [ "${{ github.event.inputs.version_bump }}" = "minor" ]; then
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_minor()))")
+          else
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_major()))")
+          fi
+          echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
+          echo "Current version: ${CURRENT_VERSION}"
+          echo "New version: ${NEW_VERSION}"
+
+      - name: Sync theme
+        run: python sync_theme.py
+
+      - name: Update extension.toml version
+        run: |
+          sed -i "s/^version = .*/version = \"${{ steps.version.outputs.new_version }}\"/" extension.toml
+
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add themes/catppuccin-blur.json extension.toml
+          git commit -m "chore: prepare release ${{ steps.version.outputs.new_version }}"
+
+      - name: Create and push tag
+        run: |
+          git tag v${{ steps.version.outputs.new_version }}
+          git push origin v${{ steps.version.outputs.new_version }}
+          git push
