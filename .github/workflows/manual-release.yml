@@ -92,6 +92,8 @@ jobs:
           git remote add upstream https://github.com/zed-industries/extensions.git
           git fetch upstream
           git checkout main
+          git submodule init
+          git submodule update --init --recursive
           git reset --soft upstream/main
           git add .
 
