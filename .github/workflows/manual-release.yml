@@ -92,10 +92,11 @@ jobs:
           git remote add upstream https://github.com/zed-industries/extensions.git
           git fetch upstream
           git checkout main
-          git submodule init
-          git submodule update --init --recursive
-          git reset --soft upstream/main
-          git add .
+          git fetch upstream main:upstream-main
+          git reset --hard upstream-main
+
+          # Create new branch
+          git checkout -b update-catppuccin-blur-${{ steps.version.outputs.new_version }}
 
       - name: Update Extension
         run: |
@@ -107,19 +108,18 @@ jobs:
             sed -i "/\[extensions.catppuccin-blur\]/,/version/s/version = .*/version = \"${{ steps.version.outputs.new_version }}\"/" extensions.toml
           fi
 
-          # Add/update submodule
-          git submodule add -f https://github.com/jenslys/zed-catppuccin-blur.git extensions/catppuccin-blur || true
-          cd extensions/catppuccin-blur
-          git fetch --all
-          git checkout v${{ steps.version.outputs.new_version }}
-          cd ../..
+          # Create extensions directory if it doesn't exist
+          mkdir -p extensions/catppuccin-blur
+
+          # Clone the specific tag into the extensions directory
+          git clone --depth 1 --branch v${{ steps.version.outputs.new_version }} https://github.com/jenslys/zed-catppuccin-blur.git extensions/catppuccin-blur
 
           # Commit changes
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add extensions.toml extensions/catppuccin-blur
           git commit -m "feat: Update catppuccin-blur to v${{ steps.version.outputs.new_version }}"
-          git push origin HEAD:update-catppuccin-blur-${{ steps.version.outputs.new_version }} --force
+          git push origin update-catppuccin-blur-${{ steps.version.outputs.new_version }} --force
 
       - name: Create Pull Request
         env:
