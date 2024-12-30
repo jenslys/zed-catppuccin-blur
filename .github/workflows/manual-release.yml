@@ -81,7 +81,10 @@ jobs:
           repository: jenslys/extensions
           path: zed-extensions
           token: ${{ secrets.COMMITTER_TOKEN }}
-          submodules: true
+          sparse-checkout: |
+            extensions.toml
+            extensions/catppuccin-blur
+          sparse-checkout-cone-mode: false
 
       - name: Configure upstream
         run: |
