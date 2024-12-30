@@ -91,7 +91,9 @@ jobs:
           cd zed-extensions
           git remote add upstream https://github.com/zed-industries/extensions.git
           git fetch upstream
-          git reset --hard upstream/main
+          git checkout main
+          git reset --soft upstream/main
+          git add .
 
       - name: Update Extension
         run: |
