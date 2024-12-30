@@ -22,7 +22,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.COMMITTER_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -65,10 +64,9 @@ jobs:
 
       - name: Create and push tag
         run: |
-          git remote set-url origin https://x-access-token:${{ secrets.COMMITTER_TOKEN }}@github.com/${{ github.repository }}
           git tag v${{ steps.version.outputs.new_version }}
           git push -f origin v${{ steps.version.outputs.new_version }}
-          git push origin HEAD:master
+          git push origin master
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
