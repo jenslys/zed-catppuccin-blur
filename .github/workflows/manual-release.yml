@@ -66,7 +66,7 @@ jobs:
         run: |
           git tag v${{ steps.version.outputs.new_version }}
           git push -f origin v${{ steps.version.outputs.new_version }}
-          git push
+          git push origin master
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -82,4 +82,3 @@ jobs:
           push-to: jenslys/extensions
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
-          GIT_BRANCH: main
