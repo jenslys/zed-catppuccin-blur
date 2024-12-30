@@ -9,9 +9,10 @@ permissions:
   contents: write
 
 jobs:
-  homebrew:
+  publish:
     name: Release Zed Extension
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: huacnlee/zed-extension-action@v1
         with:
