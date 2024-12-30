@@ -12,6 +12,9 @@ on:
           - minor
           - major
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -62,8 +65,8 @@ jobs:
       - name: Create and push tag
         run: |
           git tag v${{ steps.version.outputs.new_version }}
-          git push origin v${{ steps.version.outputs.new_version }}
           git push
+          git push --tags
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
