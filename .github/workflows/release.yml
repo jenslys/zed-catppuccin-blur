@@ -1,3 +1,5 @@
+name: Publish to Zed
+
 on:
   push:
     tags:
