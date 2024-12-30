@@ -75,65 +75,11 @@ jobs:
           tag_name: v${{ steps.version.outputs.new_version }}
           generate_release_notes: true
 
-      - name: Checkout Zed Extensions Fork
-        uses: actions/checkout@v4
+      - name: Publish to Zed
+        uses: huacnlee/zed-extension-action@v1
         with:
-          repository: jenslys/extensions
-          path: zed-extensions
-          token: ${{ secrets.COMMITTER_TOKEN }}
-          sparse-checkout: |
-            extensions.toml
-            extensions/catppuccin-blur
-          sparse-checkout-cone-mode: false
-
-      - name: Configure upstream
-        run: |
-          cd zed-extensions
-          git remote add upstream https://github.com/zed-industries/extensions.git
-          git fetch upstream
-          git checkout main
-          git fetch upstream main:upstream-main
-          git reset --hard upstream-main
-
-          # Create new branch
-          git checkout -b update-catppuccin-blur-${{ steps.version.outputs.new_version }}
-
-      - name: Update Extension
-        run: |
-          cd zed-extensions
-          # Update extensions.toml
-          if ! grep -q "catppuccin-blur" extensions.toml; then
-            echo -e "\n[extensions.catppuccin-blur]\nversion = \"${{ steps.version.outputs.new_version }}\"" >> extensions.toml
-          else
-            sed -i "/\[extensions.catppuccin-blur\]/,/version/s/version = .*/version = \"${{ steps.version.outputs.new_version }}\"/" extensions.toml
-          fi
-
-          # Create extensions directory if it doesn't exist
-          mkdir -p extensions/catppuccin-blur
-
-          # Clone the specific tag into the extensions directory
-          git clone --depth 1 --branch v${{ steps.version.outputs.new_version }} https://github.com/jenslys/zed-catppuccin-blur.git extensions/catppuccin-blur
-
-          # Commit changes
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add extensions.toml extensions/catppuccin-blur
-          git commit -m "feat: Update catppuccin-blur to v${{ steps.version.outputs.new_version }}"
-          git push origin update-catppuccin-blur-${{ steps.version.outputs.new_version }} --force
-
-      - name: Create Pull Request
+          extension-name: catppuccin-blur
+          push-to: jenslys/extensions
         env:
-          GH_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
-        run: |
-          cd zed-extensions
-          gh pr create \
-            --title "feat: Update catppuccin-blur to v${{ steps.version.outputs.new_version }}" \
-            --body "Updates catppuccin-blur to version ${{ steps.version.outputs.new_version }}
-
-            - Updated submodule to v${{ steps.version.outputs.new_version }}
-            - Updated version in extensions.toml
-
-            Release: https://github.com/jenslys/zed-catppuccin-blur/releases/tag/v${{ steps.version.outputs.new_version }}" \
-            --base zed-industries/extensions:main \
-            --head jenslys:update-catppuccin-blur-${{ steps.version.outputs.new_version }} \
-            --label extension
+          COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+          GIT_BRANCH: main
