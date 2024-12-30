@@ -66,7 +66,7 @@ jobs:
         run: |
           git tag v${{ steps.version.outputs.new_version }}
           git push -f origin v${{ steps.version.outputs.new_version }}
-          git push origin master
+          git push origin main
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
