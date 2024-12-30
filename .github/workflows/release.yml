@@ -1,7 +1,6 @@
 name: Publish to Zed
 
 on:
-  create:
   push:
     tags:
       - "v*"
@@ -13,7 +12,6 @@ jobs:
   publish:
     name: Release Zed Extension
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || (github.event_name == 'create' && github.event.ref_type == 'tag')
     steps:
       - name: Debug info
         run: |
@@ -22,10 +20,13 @@ jobs:
           echo "Ref: ${{ github.ref }}"
           echo "SHA: ${{ github.sha }}"
           echo "Tag: ${GITHUB_REF#refs/tags/}"
+          echo "Workspace: ${{ github.workspace }}"
+          echo "Repository: ${{ github.repository }}"
 
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.ref }}
 
       - uses: huacnlee/zed-extension-action@v1
         with:
