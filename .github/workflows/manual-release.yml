@@ -62,17 +62,18 @@ jobs:
           git add themes/catppuccin-blur.json extension.toml
           git commit -m "chore: prepare release ${{ steps.version.outputs.new_version }}"
 
-      - name: Fetch all branches
+      - name: Setup Git state
         run: |
           git fetch --all
           git checkout main
           git pull origin main
+          git branch -u origin/main main
 
-      - name: Create and push tag
+      - name: Push changes
         run: |
           git tag v${{ steps.version.outputs.new_version }}
           git push origin v${{ steps.version.outputs.new_version }}
-          git push origin main:main
+          git push origin main:main --force
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
