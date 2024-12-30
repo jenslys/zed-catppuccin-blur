@@ -4,20 +4,12 @@ on:
   push:
     tags:
       - "v*"
-  workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   homebrew:
     name: Release Zed Extension
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: master
       - uses: huacnlee/zed-extension-action@v1
         with:
           extension-name: catppuccin-blur
