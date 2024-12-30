@@ -1,13 +1,9 @@
 name: Publish to Zed
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - "v*"
-
-permissions:
-  contents: write
 
 jobs:
   homebrew:
