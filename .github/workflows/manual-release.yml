@@ -11,11 +11,6 @@ on:
           - patch
           - minor
           - major
-      debug_mode:
-        description: "Debug mode (skips GitHub release only)"
-        required: true
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -42,17 +37,12 @@ jobs:
         id: version
         run: |
           CURRENT_VERSION=$(grep '^version = ' extension.toml | sed 's/version = "\(.*\)"/\1/')
-          if [ "${{ github.event.inputs.debug_mode }}" = "true" ]; then
-            NEW_VERSION="${CURRENT_VERSION}"
-            echo "Debug mode: Using current version ${CURRENT_VERSION}"
+          if [ "${{ github.event.inputs.version_bump }}" = "patch" ]; then
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_patch()))")
+          elif [ "${{ github.event.inputs.version_bump }}" = "minor" ]; then
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_minor()))")
           else
-            if [ "${{ github.event.inputs.version_bump }}" = "patch" ]; then
-              NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_patch()))")
-            elif [ "${{ github.event.inputs.version_bump }}" = "minor" ]; then
-              NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_minor()))")
-            else
-              NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_major()))")
-            fi
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_major()))")
           fi
           echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
           echo "Current version: ${CURRENT_VERSION}"
@@ -62,7 +52,6 @@ jobs:
         run: python sync_theme.py
 
       - name: Update extension.toml version
-        if: ${{ !github.event.inputs.debug_mode }}
         run: |
           sed -i "s/^version = .*/version = \"${{ steps.version.outputs.new_version }}\"/" extension.toml
 
@@ -70,56 +59,28 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          if [ "${{ github.event.inputs.debug_mode }}" = "false" ]; then
-            git add themes/catppuccin-blur.json extension.toml
-            git commit -m "chore: prepare release ${{ steps.version.outputs.new_version }}"
-          else
-            git add themes/catppuccin-blur.json
-            git commit -m "debug: testing zed publishing"
-          fi
+          git add themes/catppuccin-blur.json extension.toml
+          git commit -m "chore: prepare release ${{ steps.version.outputs.new_version }}"
 
       - name: Setup Git state
         run: |
-          echo "Debug: Listing all branches"
-          git branch -a
-          echo "Debug: Current branch"
-          git branch --show-current
           git fetch --all
-          git checkout master || git checkout -b master
-          git pull origin master || echo "No remote master branch yet"
-          git branch -u origin/master master || echo "Failed to set upstream"
-          echo "Debug: Final branch state"
-          git branch -a
+          git checkout main
+          git pull origin main
+          git branch -u origin/main main
 
       - name: Push changes
         run: |
-          # Always push changes to master
-          git push origin master:master --force
-
-          # Only create and push tag if not in debug mode
-          if [ "${{ github.event.inputs.debug_mode }}" = "false" ]; then
-            git tag v${{ steps.version.outputs.new_version }}
-            git push origin v${{ steps.version.outputs.new_version }}
-          fi
+          git tag v${{ steps.version.outputs.new_version }}
+          git push origin v${{ steps.version.outputs.new_version }}
+          git push origin main:main --force
 
       - name: Create GitHub Release
-        if: ${{ !github.event.inputs.debug_mode }}
         uses: softprops/action-gh-release@v1
         with:
           name: v${{ steps.version.outputs.new_version }}
           tag_name: v${{ steps.version.outputs.new_version }}
           generate_release_notes: true
-
-      - name: Debug Git State Before Zed Publish
-        run: |
-          echo "Current Git Status:"
-          git status
-          echo "Current Branch:"
-          git branch --show-current
-          echo "Remote URLs:"
-          git remote -v
-          echo "Latest Commit:"
-          git log -1
 
       - name: Publish to Zed
         uses: huacnlee/zed-extension-action@v1
@@ -128,11 +89,3 @@ jobs:
           push-to: jenslys/extensions
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
-
-      - name: Debug Git State After Zed Publish
-        if: always()
-        run: |
-          echo "Git Status After Publish:"
-          git status
-          echo "Remote URLs After:"
-          git remote -v
