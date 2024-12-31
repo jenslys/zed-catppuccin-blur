@@ -103,7 +103,14 @@ jobs:
         with:
           extension-name: catppuccin-blur
           push-to: jenslys/extensions
+          create-pullrequest: true
+          commit-message: |
+            Update catppuccin-blur to v${{ steps.version.outputs.new_version }}
+
+            Release notes:
+            https://github.com/jenslys/zed-catppuccin-blur/releases/tag/v${{ steps.version.outputs.new_version }}
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
           GIT_TRACE: 1
           GIT_CURL_VERBOSE: 1
+          GIT_DEFAULT_BRANCH: main
