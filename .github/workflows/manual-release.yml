@@ -93,6 +93,11 @@ jobs:
           echo "\nGit status:"
           git status
 
+      - name: Debug Target Repo
+        run: |
+          echo "Checking target repository..."
+          git ls-remote https://github.com/jenslys/extensions.git
+
       - name: Publish to Zed
         uses: huacnlee/zed-extension-action@v1
         with:
@@ -100,3 +105,5 @@ jobs:
           push-to: jenslys/extensions
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
+          GIT_TRACE: 1
+          GIT_CURL_VERBOSE: 1
