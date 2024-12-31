@@ -22,6 +22,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: master
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -82,35 +83,12 @@ jobs:
           tag_name: v${{ steps.version.outputs.new_version }}
           generate_release_notes: true
 
-      - name: Debug Git State
-        run: |
-          echo "Current branch:"
-          git branch --show-current
-          echo "\nAll branches:"
-          git branch -a
-          echo "\nRemote info:"
-          git remote -v
-          echo "\nGit status:"
-          git status
-
-      - name: Debug Target Repo
-        run: |
-          echo "Checking target repository..."
-          git ls-remote https://github.com/jenslys/extensions.git
-
       - name: Publish to Zed
         uses: huacnlee/zed-extension-action@v1
         with:
           extension-name: catppuccin-blur
           push-to: jenslys/extensions
           create-pullrequest: true
-          commit-message: |
-            Update catppuccin-blur to v${{ steps.version.outputs.new_version }}
-
-            Release notes:
-            https://github.com/jenslys/zed-catppuccin-blur/releases/tag/v${{ steps.version.outputs.new_version }}
+          commit-message: "Update catppuccin-blur to v${{ steps.version.outputs.new_version }}"
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
-          GIT_TRACE: 1
-          GIT_CURL_VERBOSE: 1
-          GIT_DEFAULT_BRANCH: main
