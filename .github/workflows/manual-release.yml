@@ -11,11 +11,6 @@ on:
           - patch
           - minor
           - major
-      debug_mode:
-        description: "Debug mode (skips GitHub release only)"
-        required: true
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -42,17 +37,12 @@ jobs:
         id: version
         run: |
           CURRENT_VERSION=$(grep '^version = ' extension.toml | sed 's/version = "\(.*\)"/\1/')
-          if [ "${{ github.event.inputs.debug_mode }}" = "true" ]; then
-            NEW_VERSION="${CURRENT_VERSION}"
-            echo "Debug mode: Using current version ${CURRENT_VERSION}"
+          if [ "${{ github.event.inputs.version_bump }}" = "patch" ]; then
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_patch()))")
+          elif [ "${{ github.event.inputs.version_bump }}" = "minor" ]; then
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_minor()))")
           else
-            if [ "${{ github.event.inputs.version_bump }}" = "patch" ]; then
-              NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_patch()))")
-            elif [ "${{ github.event.inputs.version_bump }}" = "minor" ]; then
-              NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_minor()))")
-            else
-              NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_major()))")
-            fi
+            NEW_VERSION=$(python -c "import semver; print(str(semver.VersionInfo.parse('${CURRENT_VERSION}').bump_major()))")
           fi
           echo "new_version=${NEW_VERSION}" >> $GITHUB_OUTPUT
           echo "Current version: ${CURRENT_VERSION}"
@@ -62,21 +52,21 @@ jobs:
         run: python sync_theme.py
 
       - name: Update extension.toml version
-        if: ${{ !github.event.inputs.debug_mode }}
         run: |
           sed -i "s/^version = .*/version = \"${{ steps.version.outputs.new_version }}\"/" extension.toml
 
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git diff --quiet || echo "has_changes=true" >> $GITHUB_OUTPUT
+
       - name: Commit changes
+        if: steps.check_changes.outputs.has_changes == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          if [ "${{ github.event.inputs.debug_mode }}" = "false" ]; then
-            git add themes/catppuccin-blur.json extension.toml
-            git commit -m "chore: prepare release ${{ steps.version.outputs.new_version }}"
-          else
-            git add themes/catppuccin-blur.json
-            git commit -m "debug: testing zed publishing"
-          fi
+          git add themes/catppuccin-blur.json extension.toml
+          git commit -m "chore: prepare release ${{ steps.version.outputs.new_version }}"
 
       - name: Setup Git state
         run: |
@@ -92,18 +82,14 @@ jobs:
           git branch -a
 
       - name: Push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
         run: |
-          # Always push changes to master
+          git tag v${{ steps.version.outputs.new_version }}
+          git push origin v${{ steps.version.outputs.new_version }}
           git push origin master:master --force
 
-          # Only create and push tag if not in debug mode
-          if [ "${{ github.event.inputs.debug_mode }}" = "false" ]; then
-            git tag v${{ steps.version.outputs.new_version }}
-            git push origin v${{ steps.version.outputs.new_version }}
-          fi
-
       - name: Create GitHub Release
-        if: ${{ !github.event.inputs.debug_mode }}
+        if: steps.check_changes.outputs.has_changes == 'true'
         uses: softprops/action-gh-release@v1
         with:
           name: v${{ steps.version.outputs.new_version }}
