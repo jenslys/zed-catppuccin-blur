@@ -65,15 +65,15 @@ jobs:
       - name: Setup Git state
         run: |
           git fetch --all
-          git checkout main
-          git pull origin main
-          git branch -u origin/main main
+          git checkout master
+          git pull origin master
+          git branch -u origin/master master
 
       - name: Push changes
         run: |
           git tag v${{ steps.version.outputs.new_version }}
           git push origin v${{ steps.version.outputs.new_version }}
-          git push origin main:main --force
+          git push origin master:master --force
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -81,6 +81,17 @@ jobs:
           name: v${{ steps.version.outputs.new_version }}
           tag_name: v${{ steps.version.outputs.new_version }}
           generate_release_notes: true
+
+      - name: Debug Git State
+        run: |
+          echo "Current branch:"
+          git branch --show-current
+          echo "\nAll branches:"
+          git branch -a
+          echo "\nRemote info:"
+          git remote -v
+          echo "\nGit status:"
+          git status
 
       - name: Publish to Zed
         uses: huacnlee/zed-extension-action@v1
