@@ -176,6 +176,15 @@ def fix_json(json_str):
     json_str = re.sub(r',(\s*[}\]])', r'\1', json_str)
     return json_str
 
+def remove_alpha(color):
+    # Check if color is in hex format and has alpha
+    if isinstance(color, str) and color.startswith('#'):
+        if len(color) == 9:  # #RRGGBBAA format
+            return color[:-2]  # Remove alpha
+        elif len(color) == 6:  # #RRGGBB format
+            return color
+    return color
+
 def fetch_theme():
     response = requests.get(THEME_URL)
     response.raise_for_status()
@@ -222,8 +231,17 @@ def apply_blur(theme):
                 # Apply the variant-specific overrides
                 style = theme_variant["style"]
                 overrides = THEME_OVERRIDES[key]
+                
+                # First, get error lens colors from theme and remove alpha
+                error_lens_keys = ["error.background", "info.background", "warning.background", "success.background"]
+                for error_key in error_lens_keys:
+                    if error_key in style:
+                        style[error_key] = remove_alpha(style[error_key])
+                
+                # Then apply our overrides
                 for k, v in overrides.items():
                     style[k] = v
+                
                 print(f"Applied overrides for {name}")
                 break
     
