@@ -39,7 +39,11 @@ THEME_OVERRIDES = {
         "ghost_element.active": "#007aff12",
         "ghost_element.selected": "#007aff12",
         "drop_target.background": "#007aff18",
-        "editor.highlighted_line.background": "#007aff12"
+        "editor.highlighted_line.background": "#007aff12",
+        "error.background": "#e64553",
+        "warning.background": "#fdb347",
+        "info.background": "#1c8db0",
+        "success.background": "#3a9528"
     },
     "frappe": {
         "background.appearance": "blurred",
@@ -71,7 +75,11 @@ THEME_OVERRIDES = {
         "ghost_element.active": "#ca9ee612",
         "ghost_element.selected": "#ca9ee612",
         "drop_target.background": "#ca9ee618",
-        "editor.highlighted_line.background": "#ca9ee612"
+        "editor.highlighted_line.background": "#ca9ee612",
+        "error.background": "#e78284",
+        "warning.background": "#c6a36c",
+        "info.background": "#6da4c7",
+        "success.background": "#8cbe6c"
     },
     "macchiato": {
         "background.appearance": "blurred",
@@ -103,7 +111,11 @@ THEME_OVERRIDES = {
         "ghost_element.active": "#f4dbd612",
         "ghost_element.selected": "#f4dbd612",
         "drop_target.background": "#f4dbd618",
-        "editor.highlighted_line.background": "#f4dbd612"
+        "editor.highlighted_line.background": "#f4dbd612",
+        "error.background": "#ed8796",
+        "warning.background": "#d3a168",
+        "info.background": "#7ab3b3",
+        "success.background": "#8cbe6c"
     },
     "mocha": {
         "background.appearance": "blurred",
@@ -135,7 +147,11 @@ THEME_OVERRIDES = {
         "ghost_element.active": "#f5e0dc12",
         "ghost_element.selected": "#f5e0dc12",
         "drop_target.background": "#f5e0dc18",
-        "editor.highlighted_line.background": "#f5e0dc12"
+        "editor.highlighted_line.background": "#f5e0dc12",
+        "error.background": "#f38ba8",
+        "warning.background": "#d8a657",
+        "info.background": "#74c7db",
+        "success.background": "#8cbe6c"
     },
     "espresso": {
         "background.appearance": "blurred",
@@ -167,7 +183,11 @@ THEME_OVERRIDES = {
         "ghost_element.active": "#f4dbd612",
         "ghost_element.selected": "#f4dbd612",
         "drop_target.background": "#f4dbd618",
-        "editor.highlighted_line.background": "#f4dbd612"
+        "editor.highlighted_line.background": "#f4dbd612",
+        "error.background": "#ed8796",
+        "warning.background": "#d3a168",
+        "info.background": "#7ab3b3",
+        "success.background": "#8cbe6c"
     }
 }
 
@@ -232,13 +252,7 @@ def apply_blur(theme):
                 style = theme_variant["style"]
                 overrides = THEME_OVERRIDES[key]
                 
-                # First, get error lens colors from theme and remove alpha
-                error_lens_keys = ["error.background", "info.background", "warning.background", "success.background"]
-                for error_key in error_lens_keys:
-                    if error_key in style:
-                        style[error_key] = remove_alpha(style[error_key])
-                
-                # Then apply our overrides
+                # Apply our overrides
                 for k, v in overrides.items():
                     style[k] = v
                 
