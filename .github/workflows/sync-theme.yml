@@ -23,13 +23,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
       - name: Sync theme
         run: python sync_theme.py
+
+      - name: Stage changes
+        run: |
+          git add themes/catppuccin-blur.json
+          git status
 
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
+          git diff --staged --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
 
       - name: Create Pull Request
         if: steps.git-check.outputs.changes == 'true'

@@ -40,10 +40,10 @@ THEME_OVERRIDES = {
         "ghost_element.selected": "#007aff12",
         "drop_target.background": "#007aff18",
         "editor.highlighted_line.background": "#007aff12",
-        "error.background": "#e64553",
-        "warning.background": "#fdb347",
-        "info.background": "#1c8db0",
-        "success.background": "#3a9528"
+        "error.background": "#ffd7d9",
+        "warning.background": "#ffe5c0",
+        "info.background": "#cce9f3",
+        "success.background": "#d4eecf"
     },
     "frappe": {
         "background.appearance": "blurred",
@@ -76,10 +76,10 @@ THEME_OVERRIDES = {
         "ghost_element.selected": "#ca9ee612",
         "drop_target.background": "#ca9ee618",
         "editor.highlighted_line.background": "#ca9ee612",
-        "error.background": "#e78284",
-        "warning.background": "#c6a36c",
-        "info.background": "#6da4c7",
-        "success.background": "#8cbe6c"
+        "error.background": "#3f2325",
+        "warning.background": "#382d20",
+        "info.background": "#1f3137",
+        "success.background": "#243427"
     },
     "macchiato": {
         "background.appearance": "blurred",
@@ -112,10 +112,10 @@ THEME_OVERRIDES = {
         "ghost_element.selected": "#f4dbd612",
         "drop_target.background": "#f4dbd618",
         "editor.highlighted_line.background": "#f4dbd612",
-        "error.background": "#ed8796",
-        "warning.background": "#d3a168",
-        "info.background": "#7ab3b3",
-        "success.background": "#8cbe6c"
+        "error.background": "#3d2224",
+        "warning.background": "#362c1f",
+        "info.background": "#1e2f35",
+        "success.background": "#233225"
     },
     "mocha": {
         "background.appearance": "blurred",
@@ -148,10 +148,10 @@ THEME_OVERRIDES = {
         "ghost_element.selected": "#f5e0dc12",
         "drop_target.background": "#f5e0dc18",
         "editor.highlighted_line.background": "#f5e0dc12",
-        "error.background": "#f38ba8",
-        "warning.background": "#d8a657",
-        "info.background": "#74c7db",
-        "success.background": "#8cbe6c"
+        "error.background": "#3b2022",
+        "warning.background": "#342a1e",
+        "info.background": "#1c2d33",
+        "success.background": "#213023"
     },
     "espresso": {
         "background.appearance": "blurred",
@@ -184,10 +184,10 @@ THEME_OVERRIDES = {
         "ghost_element.selected": "#f4dbd612",
         "drop_target.background": "#f4dbd618",
         "editor.highlighted_line.background": "#f4dbd612",
-        "error.background": "#ed8796",
-        "warning.background": "#d3a168",
-        "info.background": "#7ab3b3",
-        "success.background": "#8cbe6c"
+        "error.background": "#391e20",
+        "warning.background": "#32281d",
+        "info.background": "#1a2b31",
+        "success.background": "#1f2e21"
     }
 }
 
