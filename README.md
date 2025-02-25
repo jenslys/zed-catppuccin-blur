@@ -3,6 +3,9 @@
 > **Note**
 > The blur effect may not work on all operating systems. This is a limitation of Zed's window transparency implementation, not a theme issue. If you experience issues with blur, please report them to the [Zed repository](https://github.com/zed-industries/zed).
 
+> **Note**
+> This is an opinionated fork of the original Catppuccin theme. In addition to the blur effects, it includes various UI tweaks and modifications to create a unique visual experience. The changes go beyond just adding transparency.
+
 <p align="center">
   <a href="https://github.com/jenslys/zed-catppuccin-blur/stargazers">
     <img src="https://img.shields.io/github/stars/jenslys/zed-catppuccin-blur?colorA=363a4f&colorB=b7bdf8&style=for-the-badge">
