@@ -3,6 +3,22 @@ import json
 import requests
 import os
 import re
+import sys
+import time
+import hashlib
+from typing import Dict, Any
+
+# ANSI color codes
+class Colors:
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    RESET = '\033[0m'
+    BOLD = '\033[1m'
+    DIM = '\033[2m'
 
 # URL for Catppuccin theme
 THEME_URL = "https://raw.githubusercontent.com/catppuccin/zed/main/themes/catppuccin-mauve.json"
@@ -196,6 +212,47 @@ THEME_OVERRIDES = {
     }
 }
 
+def print_header():
+    print(f"\n{Colors.PURPLE}╭{'─' * 48}╮{Colors.RESET}")
+    print(f"{Colors.PURPLE}│{Colors.RESET} {Colors.BOLD}🎨 Catppuccin Blur Theme Sync{Colors.RESET}{'  ' * 9}{Colors.PURPLE}│{Colors.RESET}")
+    print(f"{Colors.PURPLE}╰{'─' * 48}╯{Colors.RESET}\n")
+
+def print_step(step: str, status: str = "info"):
+    icons = {
+        "info": f"{Colors.BLUE}ℹ{Colors.RESET}",
+        "success": f"{Colors.GREEN}✓{Colors.RESET}",
+        "error": f"{Colors.RED}✗{Colors.RESET}",
+        "warning": f"{Colors.YELLOW}⚠{Colors.RESET}",
+        "processing": f"{Colors.CYAN}◆{Colors.RESET}"
+    }
+    print(f"{icons.get(status, icons['info'])} {step}")
+
+def progress_bar(current: int, total: int, prefix: str = "", width: int = 30):
+    percent = current / total
+    filled = int(width * percent)
+    bar = f"{'█' * filled}{'░' * (width - filled)}"
+    
+    sys.stdout.write(f"\r{prefix} {Colors.CYAN}[{bar}]{Colors.RESET} {percent:.0%}")
+    sys.stdout.flush()
+    
+    if current == total:
+        print()  # New line when complete
+
+def get_file_hash(filepath: str) -> str:
+    """Calculate SHA256 hash of a file."""
+    if not os.path.exists(filepath):
+        return ""
+    
+    sha256_hash = hashlib.sha256()
+    with open(filepath, "rb") as f:
+        for byte_block in iter(lambda: f.read(4096), b""):
+            sha256_hash.update(byte_block)
+    return sha256_hash.hexdigest()
+
+def get_content_hash(content: str) -> str:
+    """Calculate SHA256 hash of string content."""
+    return hashlib.sha256(content.encode()).hexdigest()
+
 def fix_json(json_str):
     # Fix trailing commas
     json_str = re.sub(r',(\s*[}\]])', r'\1', json_str)
@@ -211,12 +268,54 @@ def remove_alpha(color):
     return color
 
 def fetch_theme():
-    response = requests.get(THEME_URL)
-    response.raise_for_status()
-    fixed_json = fix_json(response.text)
-    return json.loads(fixed_json)
+    print_step("Fetching theme from upstream...", "processing")
+    
+    try:
+        # For GitHub raw URLs, just use a spinner as content-length is unreliable
+        response = requests.get(THEME_URL, stream=True)
+        response.raise_for_status()
+        
+        block_size = 8192
+        downloaded = 0
+        content = []
+        
+        # Animated spinner
+        spinner = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+        spinner_idx = 0
+        
+        for data in response.iter_content(block_size):
+            content.append(data)
+            downloaded += len(data)
+            
+            # Show spinner with size info
+            sys.stdout.write(f"\r  {Colors.CYAN}{spinner[spinner_idx]}{Colors.RESET} Downloading... ({downloaded / 1024:.1f} KB)")
+            sys.stdout.flush()
+            spinner_idx = (spinner_idx + 1) % len(spinner)
+        
+        print()  # New line after spinner
+        
+        # Join all chunks
+        full_content = b''.join(content).decode('utf-8')
+        
+        print_step(f"Download complete! ({downloaded / 1024:.1f} KB)", "success")
+        print_step("Parsing theme data...", "processing")
+        
+        fixed_json = fix_json(full_content)
+        theme_data = json.loads(fixed_json)
+        
+        print_step("Theme data parsed successfully", "success")
+        return theme_data
+        
+    except requests.RequestException as e:
+        print_step(f"Failed to fetch theme: {str(e)}", "error")
+        raise
+    except json.JSONDecodeError as e:
+        print_step(f"Failed to parse theme JSON: {str(e)}", "error")
+        raise
 
 def apply_blur(theme):
+    print_step("Applying blur modifications...", "processing")
+    
     # Map variant names to our override keys
     VARIANT_MAP = {
         "latte": "latte",
@@ -227,6 +326,7 @@ def apply_blur(theme):
     }
     
     # Add Espresso variant by cloning and modifying Macchiato
+    print_step("Creating Espresso variant...", "processing")
     macchiato_theme = None
     for theme_variant in theme["themes"]:
         if "macchiato" in theme_variant["name"].lower():
@@ -245,9 +345,16 @@ def apply_blur(theme):
         
         espresso_theme["style"] = espresso_style
         theme["themes"].append(espresso_theme)
+        print_step("Espresso variant created", "success")
     
     # Apply overrides to all variants
+    print(f"\n{Colors.BOLD}Applying blur effects to variants:{Colors.RESET}")
+    
+    total_variants = len(theme["themes"])
+    current = 0
+    
     for theme_variant in theme["themes"]:
+        current += 1
         variant_name = theme_variant["name"].lower()
         
         # Find the matching variant
@@ -257,43 +364,103 @@ def apply_blur(theme):
                 style = theme_variant["style"]
                 overrides = THEME_OVERRIDES[key]
                 
-                # Apply our overrides
-                for k, v in overrides.items():
-                    style[k] = v
+                # Show progress for current variant
+                print(f"\n  {Colors.CYAN}◆{Colors.RESET} Processing {Colors.BOLD}{name.capitalize()}{Colors.RESET} variant...")
                 
-                print(f"Applied overrides for {name}")
+                # Apply our overrides with mini progress
+                total_overrides = len(overrides.items())
+                for idx, (k, v) in enumerate(overrides.items()):
+                    style[k] = v
+                    progress_bar(idx + 1, total_overrides, "    Applying styles", width=20)
+                
+                time.sleep(0.1)  # Small delay for visual effect
+                print(f"    {Colors.GREEN}✓{Colors.RESET} {name.capitalize()} variant complete")
                 break
     
+    print(f"\n{Colors.GREEN}✓{Colors.RESET} All blur modifications applied successfully!")
     return theme
 
 def main():
+    print_header()
+    
+    start_time = time.time()
+    output_path = "themes/catppuccin-blur.json"
+    
+    # Create themes directory
     os.makedirs("themes", exist_ok=True)
+    print_step("Initialized themes directory", "success")
+    
+    # Get hash of existing file
+    existing_hash = get_file_hash(output_path)
     
     try:
         # Fetch and modify theme
+        print()  # Add spacing
         theme = fetch_theme()
+        print()  # Add spacing
         theme = apply_blur(theme)
         
-        # Update theme name and metadata
+        # Update theme metadata
+        print(f"\n{Colors.BOLD}Finalizing theme:{Colors.RESET}")
+        print_step("Updating theme metadata...", "processing")
+        
         theme["name"] = "Catppuccin Blur"
         theme["author"] = "Jens Lystad <jens@lystad.io>"
         
         # Update variant names
+        variant_count = 0
         for variant in theme["themes"]:
             if "espresso" not in variant["name"].lower():
                 variant["name"] = f"{variant['name']} (Blur)"
             else:
                 variant["name"] = f"{variant['name']} (Blur)"
+            variant_count += 1
         
-        # Save theme
-        output_path = "themes/catppuccin-blur.json"
-        with open(output_path, "w") as f:
-            json.dump(theme, f, indent=2)
+        print_step(f"Updated {variant_count} variant names", "success")
+        
+        # Generate new content
+        new_content = json.dumps(theme, indent=2)
+        new_hash = get_content_hash(new_content)
+        
+        # Check if content has changed
+        if existing_hash == new_hash:
+            print_step("No changes detected - theme is already up to date!", "info")
             
-        print(f"✓ Updated {output_path}")
+            # Summary for no changes
+            elapsed = time.time() - start_time
+            print(f"\n{Colors.BLUE}{'═' * 50}{Colors.RESET}")
+            print(f"{Colors.BLUE}ℹ Theme is already up to date{Colors.RESET}")
+            print(f"{Colors.DIM}   • No changes required{Colors.RESET}")
+            print(f"{Colors.DIM}   • Time: {elapsed:.2f}s{Colors.RESET}")
+            print(f"{Colors.DIM}   • Output: {output_path}{Colors.RESET}")
+            print(f"{Colors.BLUE}{'═' * 50}{Colors.RESET}\n")
+            return
         
+        # Save theme if changes detected
+        print_step("Changes detected - updating theme file...", "processing")
+        
+        with open(output_path, "w") as f:
+            f.write(new_content)
+        
+        # Calculate file size
+        file_size = os.path.getsize(output_path) / 1024  # KB
+        print_step(f"Theme saved to {Colors.BOLD}{output_path}{Colors.RESET} ({file_size:.1f} KB)", "success")
+        
+        # Summary
+        elapsed = time.time() - start_time
+        print(f"\n{Colors.GREEN}{'═' * 50}{Colors.RESET}")
+        print(f"{Colors.GREEN}✨ Theme synchronization complete!{Colors.RESET}")
+        print(f"{Colors.DIM}   • Variants: {variant_count}{Colors.RESET}")
+        print(f"{Colors.DIM}   • Time: {elapsed:.2f}s{Colors.RESET}")
+        print(f"{Colors.DIM}   • Output: {output_path}{Colors.RESET}")
+        print(f"{Colors.GREEN}{'═' * 50}{Colors.RESET}\n")
+        
+    except KeyboardInterrupt:
+        print(f"\n\n{Colors.YELLOW}⚠{Colors.RESET}  Operation cancelled by user")
+        sys.exit(1)
     except Exception as e:
-        print(f"✗ Failed to update theme: {str(e)}")
+        print(f"\n{Colors.RED}✗ Failed to update theme:{Colors.RESET} {str(e)}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main() 
