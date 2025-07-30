@@ -234,13 +234,10 @@ def apply_blur(theme):
                 
                 print(f"\n  {Colors.CYAN}◆{Colors.RESET} Processing {Colors.BOLD}{name.capitalize()}{Colors.RESET} variant...")
                 
-                total_overrides = len(overrides.items())
-                for idx, (k, v) in enumerate(overrides.items()):
+                for k, v in overrides.items():
                     style[k] = v
-                    progress_bar(idx + 1, total_overrides, "    Applying styles", width=20)
                 
-                time.sleep(0.1)
-                print(f"    {Colors.GREEN}✓{Colors.RESET} {name.capitalize()} variant complete")
+                print(f"  {Colors.GREEN}✓{Colors.RESET} {name.capitalize()} variant complete")
                 break
     
     print(f"\n{Colors.GREEN}✓{Colors.RESET} All blur modifications applied successfully!")
