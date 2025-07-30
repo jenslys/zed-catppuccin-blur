@@ -90,5 +90,6 @@ jobs:
           push-to: jenslys/extensions
           create-pullrequest: true
           commit-message: "Update catppuccin-blur to v${{ steps.version.outputs.new_version }}"
+          ref: main
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}

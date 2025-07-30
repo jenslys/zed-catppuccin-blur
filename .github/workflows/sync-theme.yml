@@ -7,6 +7,10 @@ on:
   repository_dispatch:
     types: [catppuccin-update]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -31,30 +35,22 @@ jobs:
       - name: Sync theme
         run: python sync_theme.py
 
-      - name: Stage changes
-        run: |
-          git add themes/catppuccin-blur.json
-          git status
-
-      - name: Check for changes
-        id: git-check
-        run: |
-          git diff --staged --exit-code || echo "changes=true" >> $GITHUB_OUTPUT
-
       - name: Create Pull Request
-        if: steps.git-check.outputs.changes == 'true'
-        uses: peter-evans/create-pull-request@v5
+        uses: peter-evans/create-pull-request@v6
         with:
-          commit-message: "feat: sync with latest Catppuccin theme"
-          title: "feat: sync with latest Catppuccin theme"
+          token: ${{ secrets.COMMITTER_TOKEN || secrets.GITHUB_TOKEN }}
+          commit-message: "chore: sync theme"
+          title: "chore: sync theme"
           body: |
             Automated theme sync with latest Catppuccin theme.
 
             - Synced with latest Catppuccin theme
             - Applied blur customizations
             - Updated all variants including Espresso
-          branch: feat/theme-sync
+          branch: chore/theme-sync
           delete-branch: true
           labels: |
             theme
             automated pr
+          add-paths: |
+            themes/catppuccin-blur.json

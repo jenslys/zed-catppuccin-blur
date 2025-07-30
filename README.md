@@ -49,3 +49,50 @@
 
 1. Clone this repository to your local machine
 2. Open the Extensions panel in Zed, click "Install Dev Extension" and select the cloned repository folder
+
+## ⚙️ Recommended Settings
+
+For the best experience with this theme, add the following to your Zed settings:
+
+```json
+{
+  "project_panel": {
+    "sticky_scroll": false
+  }
+}
+```
+
+This disables sticky scroll in the project panel, which can interfere with the blur effect on the panel overlays.
+
+### 🎨 Recommended Icon Theme
+
+For a cohesive visual experience, we recommend installing the [Catppuccin Icons](https://github.com/catppuccin/zed-icons) extension alongside this theme. The icon colors are specifically designed to complement the Catppuccin color palette.
+
+## 🔧 Development
+
+### Syncing with Upstream
+
+This theme is kept in sync with the official Catppuccin theme using the `sync_theme.py` script. The script:
+
+1. Fetches the latest theme from the official Catppuccin repository
+2. Applies blur-specific overrides defined in the `THEME_OVERRIDES` dictionary
+3. Generates the final theme file
+
+**Important**: Do not manually edit `themes/catppuccin-blur.json` directly. All customizations should be made in the `sync_theme.py` script's `THEME_OVERRIDES` section. Any manual changes to the JSON file will be overwritten when the sync script runs.
+
+To update the theme:
+```bash
+python3 sync_theme.py
+```
+
+### Making Theme Customizations
+
+To customize the theme, edit the `THEME_OVERRIDES` dictionary in `sync_theme.py`. Each variant (latte, frappe, macchiato, mocha, espresso) has its own set of overrides. For example:
+
+```python
+"latte": {
+    "background": "#f9fafcd7",
+    "panel.overlay_background": "#f9fafc",
+    # Add more overrides here
+}
+```
