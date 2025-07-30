@@ -83,6 +83,11 @@ jobs:
           tag_name: v${{ steps.version.outputs.new_version }}
           generate_release_notes: true
 
+      - name: Checkout tag for extension publish
+        run: |
+          git fetch --tags
+          git checkout v${{ steps.version.outputs.new_version }}
+
       - name: Publish to Zed
         uses: huacnlee/zed-extension-action@v1
         with:
@@ -90,6 +95,6 @@ jobs:
           push-to: jenslys/extensions
           create-pullrequest: true
           commit-message: "Update catppuccin-blur to v${{ steps.version.outputs.new_version }}"
-          ref: main
+          tag-name: v${{ steps.version.outputs.new_version }}
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
