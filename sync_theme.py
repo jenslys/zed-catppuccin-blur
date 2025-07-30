@@ -7,6 +7,15 @@ import sys
 import time
 import hashlib
 from typing import Dict, Any
+from theme_overrides import THEME_OVERRIDES, VARIANT_MAP
+
+try:
+    import jsonschema
+except ImportError:
+    print("jsonschema package not found. Installing...")
+    import subprocess
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "jsonschema"])
+    import jsonschema
 
 # ANSI color codes
 class Colors:
@@ -20,197 +29,10 @@ class Colors:
     BOLD = '\033[1m'
     DIM = '\033[2m'
 
-# URL for Catppuccin theme
+# URLs
 THEME_URL = "https://raw.githubusercontent.com/catppuccin/zed/main/themes/catppuccin-mauve.json"
-
-# Theme-specific overrides
-THEME_OVERRIDES = {
-    "latte": {
-        "background.appearance": "blurred",
-        "background": "#f9fafcd7",
-        "status_bar.background": "#f9fafcd7",
-        "title_bar.background": "#f9fafcd7",
-        "elevated_surface.background": "#f9fafc",
-        "surface.background": "#f9fafcd0",
-        "border": "#90909000",
-        "hint.background": "#e8e8e8c0",
-        "editor.background": "#00000000",
-        "editor.line_number": "#00000020",
-        "editor.active_line_number": "#0079ff90",
-        "editor.gutter.background": "#00000000",
-        "tab_bar.background": "#00000000",
-        "terminal.background": "#00000000",
-        "toolbar.background": "#00000000",
-        "tab.active_background": "#007aff12",
-        "tab.inactive_background": "#00000000",
-        "panel.background": "#00000000",
-        "panel.focused_border": "00000000",
-        "panel.overlay_background": "#f9fafc",
-        "element.active": "#00000000",
-        "border.variant": "#00000000",
-        "scrollbar.track.border": "#00000000",
-        "editor.active_line.background": "#00000000",
-        "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#007aff12",
-        "ghost_element.hover": "#007aff08",
-        "ghost_element.active": "#007aff12",
-        "ghost_element.selected": "#007aff12",
-        "drop_target.background": "#007aff18",
-        "editor.highlighted_line.background": "#007aff12",
-        "error.background": "#ffd7d9",
-        "warning.background": "#ffe5c0",
-        "info.background": "#cce9f3",
-        "success.background": "#d4eecf"
-    },
-    "frappe": {
-        "background.appearance": "blurred",
-        "background": "#303446d7",
-        "status_bar.background": "#303446d7",
-        "title_bar.background": "#303446d7",
-        "elevated_surface.background": "#292c3c",
-        "surface.background": "#303446d0",
-        "border": "#00000000",
-        "hint.background": "#414559c0",
-        "editor.background": "#00000000",
-        "editor.line_number": "#ffffff20",
-        "editor.active_line_number": "#ca9ee690",
-        "editor.gutter.background": "#00000000",
-        "tab_bar.background": "#00000000",
-        "terminal.background": "#00000000",
-        "toolbar.background": "#00000000",
-        "tab.active_background": "#ca9ee612",
-        "tab.inactive_background": "#00000000",
-        "panel.background": "#00000000",
-        "panel.focused_border": "00000000",
-        "panel.overlay_background": "#303446",
-        "element.active": "#00000000",
-        "border.variant": "#00000000",
-        "scrollbar.track.border": "#00000000",
-        "editor.active_line.background": "#00000000",
-        "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#ca9ee612",
-        "ghost_element.hover": "#ca9ee608",
-        "ghost_element.active": "#ca9ee612",
-        "ghost_element.selected": "#ca9ee612",
-        "drop_target.background": "#ca9ee618",
-        "editor.highlighted_line.background": "#ca9ee612",
-        "error.background": "#3f2325",
-        "warning.background": "#382d20",
-        "info.background": "#1f3137",
-        "success.background": "#243427"
-    },
-    "macchiato": {
-        "background.appearance": "blurred",
-        "background": "#24273ad7",
-        "status_bar.background": "#24273ad7",
-        "title_bar.background": "#24273ad7",
-        "elevated_surface.background": "#1e2030",
-        "surface.background": "#24273ad0",
-        "border": "#00000000",
-        "hint.background": "#363a4fc0",
-        "editor.background": "#00000000",
-        "editor.line_number": "#ffffff20",
-        "editor.active_line_number": "#f4dbd690",
-        "editor.gutter.background": "#00000000",
-        "tab_bar.background": "#00000000",
-        "terminal.background": "#00000000",
-        "toolbar.background": "#00000000",
-        "tab.active_background": "#f4dbd612",
-        "tab.inactive_background": "#00000000",
-        "panel.background": "#00000000",
-        "panel.focused_border": "00000000",
-        "panel.overlay_background": "#24273a",
-        "element.active": "#00000000",
-        "border.variant": "#00000000",
-        "scrollbar.track.border": "#00000000",
-        "editor.active_line.background": "#00000000",
-        "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#f4dbd612",
-        "ghost_element.hover": "#f4dbd608",
-        "ghost_element.active": "#f4dbd612",
-        "ghost_element.selected": "#f4dbd612",
-        "drop_target.background": "#f4dbd618",
-        "editor.highlighted_line.background": "#f4dbd612",
-        "error.background": "#3d2224",
-        "warning.background": "#362c1f",
-        "info.background": "#1e2f35",
-        "success.background": "#233225"
-    },
-    "mocha": {
-        "background.appearance": "blurred",
-        "background": "#1e1e2ed7",
-        "status_bar.background": "#1e1e2ed7",
-        "title_bar.background": "#1e1e2ed7",
-        "elevated_surface.background": "#181825",
-        "surface.background": "#1e1e2ed0",
-        "border": "#00000000",
-        "hint.background": "#313244c0",
-        "editor.background": "#00000000",
-        "editor.line_number": "#ffffff20",
-        "editor.active_line_number": "#f5e0dc90",
-        "editor.gutter.background": "#00000000",
-        "tab_bar.background": "#00000000",
-        "terminal.background": "#00000000",
-        "toolbar.background": "#00000000",
-        "tab.active_background": "#f5e0dc12",
-        "tab.inactive_background": "#00000000",
-        "panel.background": "#00000000",
-        "panel.focused_border": "00000000",
-        "panel.overlay_background": "#1e1e2e",
-        "element.active": "#00000000",
-        "border.variant": "#00000000",
-        "scrollbar.track.border": "#00000000",
-        "editor.active_line.background": "#00000000",
-        "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#f5e0dc12",
-        "ghost_element.hover": "#f5e0dc08",
-        "ghost_element.active": "#f5e0dc12",
-        "ghost_element.selected": "#f5e0dc12",
-        "drop_target.background": "#f5e0dc18",
-        "editor.highlighted_line.background": "#f5e0dc12",
-        "error.background": "#3b2022",
-        "warning.background": "#342a1e",
-        "info.background": "#1c2d33",
-        "success.background": "#213023"
-    },
-    "espresso": {
-        "background.appearance": "blurred",
-        "background": "#000000d7",
-        "status_bar.background": "#000000d7",
-        "title_bar.background": "#000000d7",
-        "elevated_surface.background": "#0a0a0a",
-        "surface.background": "#000000d0",
-        "border": "#00000000",
-        "hint.background": "#1a1a1ac0",
-        "editor.background": "#00000000",
-        "editor.line_number": "#ffffff20",
-        "editor.active_line_number": "#f4dbd690",
-        "editor.gutter.background": "#00000000",
-        "tab_bar.background": "#00000000",
-        "terminal.background": "#00000000",
-        "toolbar.background": "#00000000",
-        "tab.active_background": "#f4dbd612",
-        "tab.inactive_background": "#00000000",
-        "panel.background": "#00000000",
-        "panel.focused_border": "00000000",
-        "panel.overlay_background": "#1a1a1a",
-        "element.active": "#00000000",
-        "border.variant": "#00000000",
-        "scrollbar.track.border": "#00000000",
-        "editor.active_line.background": "#00000000",
-        "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#f4dbd612",
-        "ghost_element.hover": "#f4dbd608",
-        "ghost_element.active": "#f4dbd612",
-        "ghost_element.selected": "#f4dbd612",
-        "drop_target.background": "#f4dbd618",
-        "editor.highlighted_line.background": "#f4dbd612",
-        "error.background": "#391e20",
-        "warning.background": "#32281d",
-        "info.background": "#1a2b31",
-        "success.background": "#1f2e21"
-    }
-}
+SCHEMA_URL = "https://zed.dev/schema/themes/v0.2.0.json"
+SCHEMA_CACHE_FILE = ".theme_schema_cache.json"
 
 def print_header():
     print(f"\n{Colors.PURPLE}╭{'─' * 48}╮{Colors.RESET}")
@@ -253,25 +75,84 @@ def get_content_hash(content: str) -> str:
     """Calculate SHA256 hash of string content."""
     return hashlib.sha256(content.encode()).hexdigest()
 
+def fetch_schema() -> dict:
+    """
+    Fetch and cache the Zed theme schema.
+    Cache expires after 7 days to ensure we stay up-to-date.
+    Falls back to cached version if network request fails.
+    """
+    if os.path.exists(SCHEMA_CACHE_FILE):
+        cache_age = time.time() - os.path.getmtime(SCHEMA_CACHE_FILE)
+        if cache_age < 7 * 24 * 60 * 60:
+            print_step("Using cached theme schema", "info")
+            with open(SCHEMA_CACHE_FILE, 'r') as f:
+                return json.load(f)
+    
+    print_step("Fetching theme schema...", "processing")
+    try:
+        response = requests.get(SCHEMA_URL)
+        response.raise_for_status()
+        schema = response.json()
+        
+        with open(SCHEMA_CACHE_FILE, 'w') as f:
+            json.dump(schema, f, indent=2)
+        
+        print_step("Theme schema fetched and cached", "success")
+        return schema
+    except Exception as e:
+        print_step(f"Failed to fetch schema: {str(e)}", "warning")
+        if os.path.exists(SCHEMA_CACHE_FILE):
+            print_step("Falling back to cached schema", "info")
+            with open(SCHEMA_CACHE_FILE, 'r') as f:
+                return json.load(f)
+        return None
+
+def validate_theme(theme: dict, schema: dict) -> bool:
+    """Validate theme against the Zed schema."""
+    if not schema:
+        print_step("Skipping validation - no schema available", "warning")
+        return True
+    
+    try:
+        jsonschema.validate(instance=theme, schema=schema)
+        print_step("Theme validation passed", "success")
+        return True
+    except jsonschema.exceptions.ValidationError as e:
+        print_step(f"Theme validation failed: {e.message}", "error")
+        print(f"{Colors.DIM}  Path: {'.'.join(str(p) for p in e.path)}{Colors.RESET}")
+        return False
+    except Exception as e:
+        print_step(f"Validation error: {str(e)}", "error")
+        return False
+
 def fix_json(json_str):
-    # Fix trailing commas
+    """
+    Fix common JSON syntax errors in theme files.
+    Removes trailing commas before closing brackets/braces.
+    """
     json_str = re.sub(r',(\s*[}\]])', r'\1', json_str)
     return json_str
 
 def remove_alpha(color):
-    # Check if color is in hex format and has alpha
+    """
+    Remove alpha channel from hex colors.
+    #RRGGBBAA -> #RRGGBB
+    """
     if isinstance(color, str) and color.startswith('#'):
-        if len(color) == 9:  # #RRGGBBAA format
-            return color[:-2]  # Remove alpha
-        elif len(color) == 6:  # #RRGGBB format
+        if len(color) == 9:
+            return color[:-2]
+        elif len(color) == 6:
             return color
     return color
 
 def fetch_theme():
+    """
+    Download the upstream Catppuccin theme from GitHub.
+    Shows animated spinner during download with file size progress.
+    """
     print_step("Fetching theme from upstream...", "processing")
     
     try:
-        # For GitHub raw URLs, just use a spinner as content-length is unreliable
         response = requests.get(THEME_URL, stream=True)
         response.raise_for_status()
         
@@ -279,7 +160,6 @@ def fetch_theme():
         downloaded = 0
         content = []
         
-        # Animated spinner
         spinner = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
         spinner_idx = 0
         
@@ -287,14 +167,12 @@ def fetch_theme():
             content.append(data)
             downloaded += len(data)
             
-            # Show spinner with size info
             sys.stdout.write(f"\r  {Colors.CYAN}{spinner[spinner_idx]}{Colors.RESET} Downloading... ({downloaded / 1024:.1f} KB)")
             sys.stdout.flush()
             spinner_idx = (spinner_idx + 1) % len(spinner)
         
-        print()  # New line after spinner
+        print()
         
-        # Join all chunks
         full_content = b''.join(content).decode('utf-8')
         
         print_step(f"Download complete! ({downloaded / 1024:.1f} KB)", "success")
@@ -314,18 +192,12 @@ def fetch_theme():
         raise
 
 def apply_blur(theme):
+    """
+    Apply blur modifications to the Catppuccin theme.
+    Creates Espresso variant and applies custom overrides to all variants.
+    """
     print_step("Applying blur modifications...", "processing")
     
-    # Map variant names to our override keys
-    VARIANT_MAP = {
-        "latte": "latte",
-        "frappé": "frappe",  # Handle the é character
-        "frappe": "frappe",  # Handle plain e version
-        "macchiato": "macchiato",
-        "mocha": "mocha"
-    }
-    
-    # Add Espresso variant by cloning and modifying Macchiato
     print_step("Creating Espresso variant...", "processing")
     macchiato_theme = None
     for theme_variant in theme["themes"]:
@@ -338,7 +210,6 @@ def apply_blur(theme):
         espresso_theme["name"] = "Catppuccin Espresso"
         espresso_theme["appearance"] = "dark"
         
-        # Keep Macchiato's syntax colors but apply our UI overrides
         espresso_style = macchiato_theme["style"].copy()
         for k, v in THEME_OVERRIDES["espresso"].items():
             espresso_style[k] = v
@@ -347,7 +218,6 @@ def apply_blur(theme):
         theme["themes"].append(espresso_theme)
         print_step("Espresso variant created", "success")
     
-    # Apply overrides to all variants
     print(f"\n{Colors.BOLD}Applying blur effects to variants:{Colors.RESET}")
     
     total_variants = len(theme["themes"])
@@ -357,23 +227,19 @@ def apply_blur(theme):
         current += 1
         variant_name = theme_variant["name"].lower()
         
-        # Find the matching variant
         for name, key in VARIANT_MAP.items():
             if name in variant_name:
-                # Apply the variant-specific overrides
                 style = theme_variant["style"]
                 overrides = THEME_OVERRIDES[key]
                 
-                # Show progress for current variant
                 print(f"\n  {Colors.CYAN}◆{Colors.RESET} Processing {Colors.BOLD}{name.capitalize()}{Colors.RESET} variant...")
                 
-                # Apply our overrides with mini progress
                 total_overrides = len(overrides.items())
                 for idx, (k, v) in enumerate(overrides.items()):
                     style[k] = v
                     progress_bar(idx + 1, total_overrides, "    Applying styles", width=20)
                 
-                time.sleep(0.1)  # Small delay for visual effect
+                time.sleep(0.1)
                 print(f"    {Colors.GREEN}✓{Colors.RESET} {name.capitalize()} variant complete")
                 break
     
@@ -394,20 +260,20 @@ def main():
     existing_hash = get_file_hash(output_path)
     
     try:
-        # Fetch and modify theme
-        print()  # Add spacing
+        print()
+        schema = fetch_schema()
+        
+        print()
         theme = fetch_theme()
-        print()  # Add spacing
+        print()
         theme = apply_blur(theme)
         
-        # Update theme metadata
         print(f"\n{Colors.BOLD}Finalizing theme:{Colors.RESET}")
         print_step("Updating theme metadata...", "processing")
         
         theme["name"] = "Catppuccin Blur"
         theme["author"] = "Jens Lystad <jens@lystad.io>"
-        
-        # Update variant names
+        theme["$schema"] = SCHEMA_URL
         variant_count = 0
         for variant in theme["themes"]:
             if "espresso" not in variant["name"].lower():
@@ -417,6 +283,12 @@ def main():
             variant_count += 1
         
         print_step(f"Updated {variant_count} variant names", "success")
+        
+        # Validate theme before saving
+        print(f"\n{Colors.BOLD}Validating theme:{Colors.RESET}")
+        if not validate_theme(theme, schema):
+            print_step("Theme validation failed - aborting", "error")
+            sys.exit(1)
         
         # Generate new content
         new_content = json.dumps(theme, indent=2)
