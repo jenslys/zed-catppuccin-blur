@@ -6,7 +6,35 @@ Each variant has specific color and transparency overrides to create
 the blur effect while maintaining Catppuccin's color scheme.
 """
 
-THEME_OVERRIDES = {
+# Blur intensity levels - higher values = less transparency/more opaque
+BLUR_LEVELS = {
+    "light": {"main": "99", "surface": "8c", "elements": "04", "active": "06"},  # 60% opacity
+    "medium": {"main": "d7", "surface": "d0", "elements": "12", "active": "18"},  # 85% opacity (current)
+    "heavy": {"main": "e0", "surface": "db", "elements": "1e", "active": "24"},   # 88% opacity
+}
+
+def generate_theme_overrides_for_level(base_overrides, level_config):
+    """Generate theme overrides for a specific blur level."""
+    overrides = base_overrides.copy()
+
+    # Update transparency values based on blur level
+    for key, value in overrides.items():
+        if isinstance(value, str) and len(value) == 9 and value.startswith('#'):
+            # Extract base color and replace alpha channel
+            base_color = value[:7]
+            if "background" in key and ("status_bar" in key or "title_bar" in key or key == "background"):
+                overrides[key] = base_color + level_config["main"]
+            elif "surface" in key:
+                overrides[key] = base_color + level_config["surface"]
+            elif any(elem in key for elem in ["ghost_element", "drop_target", "tab.active"]):
+                overrides[key] = base_color + level_config["active"]
+            elif any(elem in key for elem in ["thumb", "hover", "selected"]):
+                overrides[key] = base_color + level_config["elements"]
+
+    return overrides
+
+# Base theme overrides (will be used to generate variants)
+BASE_THEME_OVERRIDES = {
     "latte": {
         "background.appearance": "blurred",
         "background": "#f9fafcd7",
@@ -194,14 +222,23 @@ THEME_OVERRIDES = {
     }
 }
 
+# Generate all theme overrides for all blur levels
+THEME_OVERRIDES = {}
+for level_name, level_config in BLUR_LEVELS.items():
+    for variant_name, base_overrides in BASE_THEME_OVERRIDES.items():
+        key = f"{variant_name}_{level_name}"
+        THEME_OVERRIDES[key] = generate_theme_overrides_for_level(base_overrides, level_config)
+
 """
 Map variant names from upstream to our override keys.
 Handles both accented and plain versions of Frappé.
+Maps to medium blur level (85% opacity) - this is the default blur level
+used for original theme names like "Catppuccin Latte (Blur)".
 """
 VARIANT_MAP = {
-    "latte": "latte",
-    "frappé": "frappe",
-    "frappe": "frappe",
-    "macchiato": "macchiato",
-    "mocha": "mocha"
+    "latte": "latte_medium",
+    "frappé": "frappe_medium",
+    "frappe": "frappe_medium",
+    "macchiato": "macchiato_medium",
+    "mocha": "mocha_medium"
 }
