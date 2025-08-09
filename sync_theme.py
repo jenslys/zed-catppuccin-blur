@@ -205,12 +205,43 @@ def apply_blur(theme, generate_all_levels=False):
     original_themes = theme["themes"].copy()
     new_themes = []
 
-    print_step("Creating Espresso variants...", "processing")
+    print_step("Creating custom variants...", "processing")
     macchiato_theme = None
+    latte_theme = None
     for theme_variant in original_themes:
         if "macchiato" in theme_variant["name"].lower():
             macchiato_theme = theme_variant.copy()
-            break
+        elif "latte" in theme_variant["name"].lower():
+            latte_theme = theme_variant.copy()
+
+    # Create Iced Latte variants
+    if latte_theme:
+        print_step("Creating Iced Latte variants...", "processing")
+        for level_name, level_config in BLUR_LEVELS.items():
+            iced_theme = latte_theme.copy()
+            iced_theme["name"] = f"Catppuccin Iced Latte"
+            iced_theme["appearance"] = "light"
+            
+            iced_style = latte_theme["style"].copy()
+            iced_overrides = BASE_THEME_OVERRIDES["iced_latte"].copy()
+            
+            # Apply blur level to iced latte overrides
+            from theme_overrides import generate_theme_overrides_for_level
+            level_overrides = generate_theme_overrides_for_level(iced_overrides, level_config)
+            
+            for k, v in level_overrides.items():
+                iced_style[k] = v
+            
+            iced_theme["style"] = iced_style
+            
+            if level_name == "medium":
+                iced_theme["name"] = "Catppuccin Iced Latte (Blur)"
+            else:
+                iced_theme["name"] = f"Catppuccin Iced Latte (Blur) [{level_name.capitalize()}]"
+            
+            new_themes.append(iced_theme)
+        
+        print_step("Iced Latte variants created", "success")
 
     if macchiato_theme:
         # Add Espresso to base overrides for all blur levels

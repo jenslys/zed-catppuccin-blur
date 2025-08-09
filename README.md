@@ -29,6 +29,10 @@
 <img src="assets/latte.png">
 </details>
 <details>
+<summary>🧊 Iced Latte</summary>
+<img src="assets/iced-latte.png">
+</details>
+<details>
 <summary>❄️ Frappé</summary>
 <img src="assets/frappe.png">
 </details>
@@ -91,7 +95,7 @@ python3 sync_theme.py
 
 ### Making Theme Customizations
 
-To customize the theme, edit the `THEME_OVERRIDES` dictionary in `theme_overrides.py`. Each variant (latte, frappe, macchiato, mocha, espresso) has its own set of overrides. For example:
+To customize the theme, edit the `THEME_OVERRIDES` dictionary in `theme_overrides.py`. Each variant (latte, iced_latte, frappe, macchiato, mocha, espresso) has its own set of overrides. For example:
 
 ```python
 "latte": {

@@ -63,18 +63,14 @@ jobs:
           git add themes/catppuccin-blur.json extension.toml
           git commit -m "chore: prepare release ${{ steps.version.outputs.new_version }}"
 
-      - name: Setup Git state
+      - name: Push changes to master
         run: |
-          git fetch --all
-          git checkout master
-          git pull origin master
-          git branch -u origin/master master
+          git push origin master
 
-      - name: Push changes
+      - name: Create and push tag
         run: |
           git tag v${{ steps.version.outputs.new_version }}
           git push origin v${{ steps.version.outputs.new_version }}
-          git push origin master:master --force
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
@@ -83,18 +79,11 @@ jobs:
           tag_name: v${{ steps.version.outputs.new_version }}
           generate_release_notes: true
 
-      - name: Checkout tag for extension publish
-        run: |
-          git fetch --tags
-          git checkout v${{ steps.version.outputs.new_version }}
-
       - name: Publish to Zed
         uses: huacnlee/zed-extension-action@v1
         with:
           extension-name: catppuccin-blur
           push-to: jenslys/extensions
-          create-pullrequest: true
-          commit-message: "Update catppuccin-blur to v${{ steps.version.outputs.new_version }}"
           tag-name: v${{ steps.version.outputs.new_version }}
         env:
           COMMITTER_TOKEN: ${{ secrets.COMMITTER_TOKEN }}
