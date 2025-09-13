@@ -8,9 +8,9 @@ the blur effect while maintaining Catppuccin's color scheme.
 
 # Blur intensity levels - higher values = less transparency/more opaque
 BLUR_LEVELS = {
-    "light": {"main": "99", "surface": "8c", "elements": "04", "active": "06"},  # 60% opacity
-    "medium": {"main": "d7", "surface": "d0", "elements": "12", "active": "18"},  # 85% opacity (current)
-    "heavy": {"main": "e0", "surface": "db", "elements": "1e", "active": "24"},   # 88% opacity
+    "light": {"main": "99", "surface": "8c", "elements": "80", "active": "90"},  # 60% opacity for main, solid for buttons
+    "medium": {"main": "d7", "surface": "d0", "elements": "a0", "active": "b0"},  # 85% opacity for main, solid for buttons
+    "heavy": {"main": "e0", "surface": "db", "elements": "c0", "active": "d0"},   # 88% opacity for main, solid for buttons
 }
 
 def generate_theme_overrides_for_level(base_overrides, level_config):
@@ -26,10 +26,11 @@ def generate_theme_overrides_for_level(base_overrides, level_config):
                 overrides[key] = base_color + level_config["main"]
             elif "surface" in key:
                 overrides[key] = base_color + level_config["surface"]
-            elif any(elem in key for elem in ["ghost_element", "drop_target", "tab.active"]):
+            elif any(elem in key for elem in ["drop_target", "tab.active"]):
                 overrides[key] = base_color + level_config["active"]
-            elif any(elem in key for elem in ["thumb", "hover", "selected"]):
+            elif any(elem in key for elem in ["thumb", "hover", "selected"]) and "ghost_element" not in key:
                 overrides[key] = base_color + level_config["elements"]
+            # Note: ghost_element colors are kept as-is for solid buttons
 
     return overrides
 
@@ -51,7 +52,7 @@ BASE_THEME_OVERRIDES = {
         "tab_bar.background": "#00000000",
         "terminal.background": "#00000000",
         "toolbar.background": "#00000000",
-        "tab.active_background": "#007aff12",
+        "tab.active_background": "#f9fafc60",
         "tab.inactive_background": "#00000000",
         "panel.background": "#00000000",
         "panel.focused_border": "00000000",
@@ -63,11 +64,12 @@ BASE_THEME_OVERRIDES = {
         "scrollbar.track.border": "#00000000",
         "editor.active_line.background": "#00000000",
         "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#007aff12",
-        "ghost_element.hover": "#007aff08",
-        "ghost_element.active": "#007aff12",
-        "ghost_element.selected": "#007aff12",
-        "drop_target.background": "#007aff18",
+        "scrollbar.thumb.background": "#8c8fa130",
+        "ghost_element.background": "#f9fafc60",
+        "ghost_element.hover": "#f9fafc90",
+        "ghost_element.active": "#8839ef30",
+        "ghost_element.selected": "#8839ef50",
+        "drop_target.background": "#8839ef20",
         "editor.highlighted_line.background": "#007aff12",
         "error.background": "#ffd7d9",
         "warning.background": "#ffe5c0",
@@ -90,7 +92,7 @@ BASE_THEME_OVERRIDES = {
         "tab_bar.background": "#00000000",
         "terminal.background": "#00000000",
         "toolbar.background": "#00000000",
-        "tab.active_background": "#0077ee15",
+        "tab.active_background": "#ddeeff60",
         "tab.inactive_background": "#00000000",
         "panel.background": "#00000000",
         "panel.focused_border": "00000000",
@@ -102,11 +104,12 @@ BASE_THEME_OVERRIDES = {
         "scrollbar.track.border": "#00000000",
         "editor.active_line.background": "#00000000",
         "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#0077ee15",
-        "ghost_element.hover": "#0077ee0a",
-        "ghost_element.active": "#0077ee15",
-        "ghost_element.selected": "#0077ee15",
-        "drop_target.background": "#0077ee20",
+        "scrollbar.thumb.background": "#8cb4ff40",
+        "ghost_element.background": "#ddeeff60",
+        "ghost_element.hover": "#ddeeff90",
+        "ghost_element.active": "#7287fd30",
+        "ghost_element.selected": "#7287fd50",
+        "drop_target.background": "#7287fd30",
         "editor.highlighted_line.background": "#0077ee15",
         "error.background": "#ffcad5",
         "warning.background": "#ffd8b8",
@@ -118,7 +121,7 @@ BASE_THEME_OVERRIDES = {
         "icon": "#1a3855",
         "icon.accent": "#0066dd",
         "element.hover": "#d0e8ffa0",
-        "element.selected": "#0077ee20"
+        "element.selected": "#7287fd40"
     },
     "frappe": {
         "background.appearance": "blurred",
@@ -136,7 +139,7 @@ BASE_THEME_OVERRIDES = {
         "tab_bar.background": "#00000000",
         "terminal.background": "#00000000",
         "toolbar.background": "#00000000",
-        "tab.active_background": "#ca9ee612",
+        "tab.active_background": "#292c3c60",
         "tab.inactive_background": "#00000000",
         "panel.background": "#00000000",
         "panel.focused_border": "00000000",
@@ -148,11 +151,12 @@ BASE_THEME_OVERRIDES = {
         "scrollbar.track.border": "#00000000",
         "editor.active_line.background": "#00000000",
         "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#ca9ee612",
-        "ghost_element.hover": "#ca9ee608",
-        "ghost_element.active": "#ca9ee612",
-        "ghost_element.selected": "#ca9ee612",
-        "drop_target.background": "#ca9ee618",
+        "scrollbar.thumb.background": "#62688030",
+        "ghost_element.background": "#292c3c60",
+        "ghost_element.hover": "#292c3c90",
+        "ghost_element.active": "#ca9ee630",
+        "ghost_element.selected": "#ca9ee650",
+        "drop_target.background": "#ca9ee630",
         "editor.highlighted_line.background": "#ca9ee612",
         "error.background": "#3f2325",
         "warning.background": "#382d20",
@@ -175,7 +179,7 @@ BASE_THEME_OVERRIDES = {
         "tab_bar.background": "#00000000",
         "terminal.background": "#00000000",
         "toolbar.background": "#00000000",
-        "tab.active_background": "#f4dbd612",
+        "tab.active_background": "#1e203060",
         "tab.inactive_background": "#00000000",
         "panel.background": "#00000000",
         "panel.focused_border": "00000000",
@@ -187,11 +191,12 @@ BASE_THEME_OVERRIDES = {
         "scrollbar.track.border": "#00000000",
         "editor.active_line.background": "#00000000",
         "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#f4dbd612",
-        "ghost_element.hover": "#f4dbd608",
-        "ghost_element.active": "#f4dbd612",
-        "ghost_element.selected": "#f4dbd612",
-        "drop_target.background": "#f4dbd618",
+        "scrollbar.thumb.background": "#8087a230",
+        "ghost_element.background": "#1e203060",
+        "ghost_element.hover": "#1e203090",
+        "ghost_element.active": "#c6a0f630",
+        "ghost_element.selected": "#c6a0f650",
+        "drop_target.background": "#c6a0f620",
         "editor.highlighted_line.background": "#f4dbd612",
         "error.background": "#3d2224",
         "warning.background": "#362c1f",
@@ -214,7 +219,7 @@ BASE_THEME_OVERRIDES = {
         "tab_bar.background": "#00000000",
         "terminal.background": "#00000000",
         "toolbar.background": "#00000000",
-        "tab.active_background": "#f5e0dc12",
+        "tab.active_background": "#18182560",
         "tab.inactive_background": "#00000000",
         "panel.background": "#00000000",
         "panel.focused_border": "00000000",
@@ -226,11 +231,12 @@ BASE_THEME_OVERRIDES = {
         "scrollbar.track.border": "#00000000",
         "editor.active_line.background": "#00000000",
         "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#f5e0dc12",
-        "ghost_element.hover": "#f5e0dc08",
-        "ghost_element.active": "#f5e0dc12",
-        "ghost_element.selected": "#f5e0dc12",
-        "drop_target.background": "#f5e0dc18",
+        "scrollbar.thumb.background": "#7f849c30",
+        "ghost_element.background": "#18182560",
+        "ghost_element.hover": "#18182590",
+        "ghost_element.active": "#cba6f730",
+        "ghost_element.selected": "#cba6f750",
+        "drop_target.background": "#cba6f720",
         "editor.highlighted_line.background": "#f5e0dc12",
         "error.background": "#3b2022",
         "warning.background": "#342a1e",
@@ -253,7 +259,7 @@ BASE_THEME_OVERRIDES = {
         "tab_bar.background": "#00000000",
         "terminal.background": "#00000000",
         "toolbar.background": "#00000000",
-        "tab.active_background": "#f4dbd612",
+        "tab.active_background": "#0a0a0a60",
         "tab.inactive_background": "#00000000",
         "panel.background": "#00000000",
         "panel.focused_border": "00000000",
@@ -265,11 +271,12 @@ BASE_THEME_OVERRIDES = {
         "scrollbar.track.border": "#00000000",
         "editor.active_line.background": "#00000000",
         "scrollbar.track.background": "#00000000",
-        "scrollbar.thumb.background": "#f4dbd612",
-        "ghost_element.hover": "#f4dbd608",
-        "ghost_element.active": "#f4dbd612",
-        "ghost_element.selected": "#f4dbd612",
-        "drop_target.background": "#f4dbd618",
+        "scrollbar.thumb.background": "#8087a230",
+        "ghost_element.background": "#0a0a0a60",
+        "ghost_element.hover": "#0a0a0a90",
+        "ghost_element.active": "#c6a0f630",
+        "ghost_element.selected": "#c6a0f650",
+        "drop_target.background": "#c6a0f620",
         "editor.highlighted_line.background": "#f4dbd612",
         "error.background": "#391e20",
         "warning.background": "#32281d",
