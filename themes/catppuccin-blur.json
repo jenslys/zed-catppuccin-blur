@@ -313,7 +313,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -543,7 +543,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -633,17 +633,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#ea76cb",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#4c4f69",
             "font_style": null,
             "font_weight": null
           },
@@ -1060,7 +1055,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -1290,7 +1285,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -1380,17 +1375,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#ea76cb",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#4c4f69",
             "font_style": null,
             "font_weight": null
           },
@@ -1807,7 +1797,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -2037,7 +2027,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -2127,17 +2117,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#ea76cb",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#4c4f69",
             "font_style": null,
             "font_weight": null
           },
@@ -2554,7 +2539,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -2784,7 +2769,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -2874,17 +2859,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5bde6",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cad3f5",
             "font_style": null,
             "font_weight": null
           },
@@ -3301,7 +3281,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -3531,7 +3511,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -3621,17 +3601,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5bde6",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cad3f5",
             "font_style": null,
             "font_weight": null
           },
@@ -4048,7 +4023,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -4278,7 +4253,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -4368,17 +4343,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5bde6",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cad3f5",
             "font_style": null,
             "font_weight": null
           },
@@ -4795,7 +4765,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -5025,7 +4995,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -5115,17 +5085,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#ea76cb",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#4c4f69",
             "font_style": null,
             "font_weight": null
           },
@@ -5542,7 +5507,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
@@ -5772,7 +5737,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
@@ -5862,17 +5827,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f4b8e4",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#c6d0f5",
             "font_style": null,
             "font_weight": null
           },
@@ -6289,7 +6249,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -6519,7 +6479,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -6609,17 +6569,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5bde6",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cad3f5",
             "font_style": null,
             "font_weight": null
           },
@@ -7036,7 +6991,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
@@ -7266,7 +7221,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
@@ -7356,17 +7311,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5c2e7",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cdd6f4",
             "font_style": null,
             "font_weight": null
           },
@@ -7783,7 +7733,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -8013,7 +7963,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -8103,17 +8053,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#ea76cb",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#4c4f69",
             "font_style": null,
             "font_weight": null
           },
@@ -8530,7 +8475,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
@@ -8760,7 +8705,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
@@ -8850,17 +8795,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f4b8e4",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#c6d0f5",
             "font_style": null,
             "font_weight": null
           },
@@ -9277,7 +9217,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -9507,7 +9447,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -9597,17 +9537,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5bde6",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cad3f5",
             "font_style": null,
             "font_weight": null
           },
@@ -10024,7 +9959,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
@@ -10254,7 +10189,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
@@ -10344,17 +10279,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5c2e7",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cdd6f4",
             "font_style": null,
             "font_weight": null
           },
@@ -10771,7 +10701,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -11001,7 +10931,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
@@ -11091,17 +11021,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#d20f39",
+            "color": "#dd7878",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#ea76cb",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#4c4f69",
             "font_style": null,
             "font_weight": null
           },
@@ -11518,7 +11443,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
@@ -11748,7 +11673,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
@@ -11838,17 +11763,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#e78284",
+            "color": "#eebebe",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f4b8e4",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#c6d0f5",
             "font_style": null,
             "font_weight": null
           },
@@ -12265,7 +12185,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -12495,7 +12415,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
@@ -12585,17 +12505,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#ed8796",
+            "color": "#f0c6c6",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5bde6",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cad3f5",
             "font_style": null,
             "font_weight": null
           },
@@ -13012,7 +12927,7 @@
             "font_weight": null
           },
           "string.special.symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
@@ -13242,7 +13157,7 @@
             "font_weight": null
           },
           "punctuation.special.symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
@@ -13332,17 +13247,12 @@
             "font_weight": null
           },
           "symbol": {
-            "color": "#f38ba8",
+            "color": "#f2cdcd",
             "font_style": null,
             "font_weight": null
           },
           "string.regex": {
             "color": "#f5c2e7",
-            "font_style": null,
-            "font_weight": null
-          },
-          "text": {
-            "color": "#cdd6f4",
             "font_style": null,
             "font_weight": null
           },
